@@ -1,6 +1,8 @@
 #! /bin/bash
 
-# Last Modified 21 August 2019
+# Last Modified 21 February 2020
+
+# git branch changed from master to fixes/31
 # use /tmp/build for mythtv_git_directory
 # fixed mythtv-database daily backup
 
@@ -35,7 +37,7 @@
 
 # Globals
 mythtv_git_directory=/tmp/build
-mythtv_git_branch=master   # just use master, it is ok to use this for mythtv 30
+mythtv_git_branch=fixes/31   # just use fixes/31, it is ok to use this for mythtv 30 as well as mythtv 31
 mythtv_password=mythtv    #if changed need to manually update /etc/apache2/sites-available/mythweb.conf
 mythtv_storagegroup_path=/srv/mythtv/ # using /srv/mythtv in preference to /var/lib/mythtv/,
 mythtv_storagegroups="banners coverart fanart recordings streaming videos bare-client db_backups  livetv  screenshots  trailers music musicart"
