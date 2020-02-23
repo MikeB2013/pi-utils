@@ -1,7 +1,8 @@
 #! /bin/bash
 
-# Last Modified 21 February 2020
+# Last Modified 23 February 2020
 
+# added libxml-simple-perl to allow optimize_mythdb.pl to run
 # git branch changed from master to fixes/31
 # use /tmp/build for mythtv_git_directory
 # fixed mythtv-database daily backup
@@ -261,8 +262,8 @@ sudo apt update && sudo apt upgrade -y
 # make sure we have git, Raspbian Buster Lite image does not
 sudo apt install git -y
 
-#needed for optimize_mythdb.pl (fixed in packaging master)
-sudo apt install libio-socket-inet6-perl -y
+#needed for optimize_mythdb.pl (fixed in packaging for libio-socket-inet6)
+sudo apt install libio-socket-inet6-perl libxml-simple-perl -y
 
 # to disable any fn_ call just put # in front
 # change the order at own risk - not tested!
