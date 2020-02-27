@@ -3,7 +3,7 @@
 # script to run mythfrontend from version 31 on Raspberry Pi under Raspian Buster using EGLFS
 # can be added to .bashrc to allow autostart of mythfrontend on boot
 
-# Last Modified 21 February 2020
+# Last Modified 27 February 2020
 
 # Author Mike Bibbings
 
@@ -20,6 +20,15 @@ if [ -z "$MYTHFRONTEND" ]; then
     echo -e "mythfrontend not found - please install MythTV-Light package"
     echo -e "See 'https://www.mythtv.org/wiki/MythTV_Light'\n"
     exit 1
+fi
+
+#check for any arguments on command line, if so use for mythfrontend command, so we can use different parameters
+#e.g. run_mythforntend.sh --logpath /home/pi --loglevel debug
+# if no arguments set --logpath /tmp
+if [ -z "$*" ] ; then
+	ARGUMENTS="--logpath /tmp"
+else
+	ARGUMENTS="$*"
 fi
 
 echo "Starting MythTV Frontend -- this may take a few seconds -- Please wait"
@@ -72,7 +81,7 @@ bash -c "cat >/home/pi/pi_mythfrontend.json" <<ENDOFSCRIPTINPUT
 ENDOFSCRIPTINPUT
 
 #for QT debug add to command line QT_QPA_EGLFS_DEBUG=1 QT_LOGGING_RULES=qt.qpa.*=true
-QT_QPA_PLATFORM=eglfs QT_QPA_EGLFS_KMS_CONFIG=/home/pi/pi_mythfrontend.json mythfrontend --logpath /tmp
+QT_QPA_PLATFORM=eglfs QT_QPA_EGLFS_KMS_CONFIG=/home/pi/pi_mythfrontend.json mythfrontend $ARGUMENTS
 # fixup keyboard after exit from mythfrontend (bug in QT causes segment fault which kills keyboard input)
 kbd_mode -u
 
