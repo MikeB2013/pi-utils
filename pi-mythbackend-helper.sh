@@ -1,7 +1,8 @@
 #! /bin/bash
 
-# Last Modified 23 February 2020
+# Last Modified 1 March 2020
 
+# Updated messages for mythtv fixes/31
 # added libxml-simple-perl to allow optimize_mythdb.pl to run
 # git branch changed from master to fixes/31
 # use /tmp/build for mythtv_git_directory
@@ -289,15 +290,18 @@ echo -e " put 'hdmi_ignore_cec=1' in '/boot/config.txt' and reboot"
 echo -e "\nStorage Group directories have been created in '$mythtv_storagegroup_path'"
 echo -e "Directories '$mythtv_storagegroups'"
 echo -e "Use mythtv-setup Storage Directories to setup those required"
-echo -e "\nUse systemctl commands to stop or start mythtv-backend"
+echo -e "\nFor mythtv prior to fixes/31, use systemctl commands to stop or start mythtv-backend"
 echo -e "  To stop  'sudo systemctl stop mythtv-backend'"
 echo -e "  To start 'sudo systemctl start mythtv-backend'"
 echo -e "  Sometimes mythtv-backend maybe 'failed' by systemd, to re-enable use"
 echo -e "   'sudo systemctl daemon-reload' followed by"
-echo -e "   'sudo systemctl start mythtv-backend'"
+echo -e "   'sudo systemctl start mythtv-backend'\n"
+echo -e "For mythtv from fixes/31, use script 'run_mythsetup.sh'"
+echo -e " which automatically stops mythbackend, starts mythtv-setup and restarts mythbackend\n"
 echo -e "\nWhen using xmltv e.g. tv_grab_zz_sdjson"
 echo -e "mythfilldatabase arguments should use '--no-allatonce'"
 echo -e "\nmythconverg database password '$mythtv_password'"
+echo -e "Latest version of this script is available from:\nhttps://github.com/MikeB2013/pi-utils"
 echo -e "\nReferences:"
 echo -e "  https://www.mythtv.org/wiki/MythTV_Light"
 echo -e "  https://www.mythtv.org/wiki/Database_Setup"
