@@ -1,5 +1,8 @@
 # utils
 mythtv utilities for Raspberry Pi
+
+Note: mythtv-light 31 or mythtv built from source only works with Raspbian Buster and runs from Console (not Desktop).
+
 | Script | Description |
 | :--- | --- |
 | `pi-mythbackend-helper.sh` | Installs additional components for mythbackend, sets up mythconverg database,mythweb etc. |
