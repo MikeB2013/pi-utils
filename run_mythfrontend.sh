@@ -3,15 +3,15 @@
 # script to run mythfrontend from version 31 on Raspberry Pi under Raspian Buster using EGLFS
 # can be added to .bashrc to allow autostart of mythfrontend on boot
 
-# Last Modified 27 February 2020
+# Last Modified 3 March 2020
 
 # Author Mike Bibbings
 
 # check if running via SSH, if so skip running mythfrontend, it must only run locally.
-SSH=$(printenv | grep SSH)
-#echo "SSH Running = $SSH"
+SSH=$(printenv | grep SSH_CLIENT)
 if [ -n "$SSH" ]; then
-exit 1
+    echo "run_mythfrontend.sh cannot be run over ssh"
+    exit 1
 fi
 
 #check mythfrontend has been installed, if not abort with message
@@ -23,7 +23,7 @@ if [ -z "$MYTHFRONTEND" ]; then
 fi
 
 #check for any arguments on command line, if so use for mythfrontend command, so we can use different parameters
-#e.g. run_mythforntend.sh --logpath /home/pi --loglevel debug
+#e.g. run_mythfrontend.sh --logpath /home/pi --loglevel debug
 # if no arguments set --logpath /tmp
 if [ -z "$*" ] ; then
 	ARGUMENTS="--logpath /tmp"
