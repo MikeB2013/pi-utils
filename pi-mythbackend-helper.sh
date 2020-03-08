@@ -256,6 +256,12 @@ rm -fr  $mythtv_git_directory/xmltv
 }
 
 #main
+# make sure we are not root
+RUNNINGAS=`whoami`
+if [ $RUNNINGAS = "root" ] ; then
+    echo "Please run as ordinary user, not with sudo"
+    exit 1
+fi
 
 #check mythbackend has been installed, if not abort with message
 MYTHBACKEND=`which mythbackend`
