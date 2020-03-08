@@ -1,7 +1,8 @@
 #! /bin/bash
 
-# Last Modified 1 March 2020
+# Last Modified 7 March 2020
 
+# get latest xmltv, repository packages are generally out of date
 # Updated messages for mythtv fixes/31
 # added libxml-simple-perl to allow optimize_mythdb.pl to run
 # git branch changed from master to fixes/31
@@ -56,6 +57,8 @@ cd $mythtv_git_directory
 git clone -b $mythtv_git_branch --depth 1 https://github.com/MythTV/mythweb.git mythweb
 #mythtv packaging - we only need a few files
 git clone -b $mythtv_git_branch --depth 1 https://github.com/MythTV/packaging.git
+# xmltv, get latest version
+git clone --depth 1 https://github.com/XMLTV/xmltv.git
 }
 
 
@@ -104,8 +107,13 @@ sudo cp $mythtv_git_directory/packaging/deb/debian/30-mythtv-sysctl.conf /etc/sy
 
 fn_setup_xmltv()
 {
-sudo apt install xmltv -y
-echo -e "\nxmltv has been installed"
+# install repository version (gets required perl modules) and update to latest version
+sudo apt install xmltv perl-doc -y
+cd /tmp/build/xmltv
+perl Makefile.PL --default
+make
+sudo make install
+echo -e "\nxmltv has been installed and updated to latest version"
 
 }
 
@@ -241,9 +249,10 @@ sudo sed -i -e 's|#bind-address|bind-address|g' /etc/mysql/mariadb.conf.d/mythtv
 
 fn_tidy_up()
 {
-# remove local packaging and mythweb git repositories
+# remove local packaging, mythweb and xmltv git repositories
 rm -fr  $mythtv_git_directory/mythweb
 rm -fr  $mythtv_git_directory/packaging
+rm -fr  $mythtv_git_directory/xmltv
 }
 
 #main
@@ -298,7 +307,8 @@ echo -e "   'sudo systemctl daemon-reload' followed by"
 echo -e "   'sudo systemctl start mythtv-backend'\n"
 echo -e "For mythtv from fixes/31, use script 'run_mythsetup.sh'"
 echo -e " which automatically stops mythbackend, starts mythtv-setup and restarts mythbackend\n"
-echo -e "\nWhen using xmltv e.g. tv_grab_zz_sdjson"
+echo -e "\nxmltv installed and updated to latest version"
+echo -e "When using xmltv e.g. tv_grab_zz_sdjson"
 echo -e "mythfilldatabase arguments should use '--no-allatonce'"
 echo -e "\nmythconverg database password '$mythtv_password'"
 echo -e "Latest version of this script is available from:\nhttps://github.com/MikeB2013/pi-utils"
