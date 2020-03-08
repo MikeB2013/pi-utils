@@ -140,7 +140,7 @@ if [ $WAITNETWORK = 0 ] ; then
 fi
 
 # set overclock (only applies to Pi2)
-if [ PI_MODEL2 = 1 ] ; then
+if [ $PI_MODEL2 = 1 ] ; then
     sudo raspi-config nonint do_overclock High
 fi
 
@@ -193,7 +193,7 @@ PI_MODEL3=$(grep -ics 'Pi 3' /proc/device-tree/model)
 #echo "pi2 = $PI_MODEL2 pi3 = $PI_MODEL3 pi4 = $PI_MODEL4"
 # if not pi2, pi3 or pi4 then exit
 
-if [ "PI_MODEL2" = 0  ] && [ "PI_MODEL3" = 0 ] && [ "PI_MODEL4" = 0 ] ; then
+if [ "$PI_MODEL2" = 0  ] && [ "$PI_MODEL3" = 0 ] && [ "$PI_MODEL4" = 0 ] ; then
     echo "This script only works for Pi Models 2,3 and 4"
     exit 1
 fi
