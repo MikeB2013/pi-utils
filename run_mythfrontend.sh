@@ -3,14 +3,14 @@
 # script to run mythfrontend from version 31 on Raspberry Pi under Raspian Buster using EGLFS
 # can be added to .bashrc to allow autostart of mythfrontend on boot
 
-# Last Modified 3 March 2020
+# Last Modified 10 March 2020
 
 # Author Mike Bibbings
 
 # check if running via SSH, if so skip running mythfrontend, it must only run locally.
 SSH=$(printenv | grep SSH_CLIENT)
 if [ -n "$SSH" ]; then
-    echo "run_mythfrontend.sh cannot be run over ssh"
+#    echo "run_mythfrontend.sh cannot be run over ssh"
     exit 1
 fi
 
@@ -33,8 +33,15 @@ fi
 
 echo "Starting MythTV Frontend -- this may take a few seconds -- Please wait"
 
+PI_MODEL=$(grep -ic 'Pi 4' /proc/device-tree/model)
 # set perfomance mode, not sure if needed for Pi4, do it anyway
 echo performance | sudo tee /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+
+# try to fix issue with unable to allocate cma, pi model 2/3
+# see https://www.raspberrypi.org/forums/viewtopic.php?f=53&t=223363&p=1613246&hilit=vc4_v3d+3fc00000.v3d%3A+Failed+to+allocate+memory+for+tile+binning%3A#p1613246
+if [ $PI_MODEL = 0 ] ; then
+    echo on | sudo tee /sys/devices/platform/soc/*.v3d/power/control
+fi
 
 #TODO check /boot/config for hdmi_group and hdmi_mode settings
 #HDMI_MODE=$(grep '^hdmi_mode' /boot/config.txt)
@@ -62,7 +69,7 @@ echo "Setting screen to $RESOLUTION"
 # pi2/3 use /dev/dri/card0,  pi4 /dev/dri/card1
 # find out which model of Pi we have
 
-PI_MODEL=$(grep -ic 'Pi 4' /proc/device-tree/model)
+
 if [ "$PI_MODEL" = 1 ]
 then
       CARD="card1"
