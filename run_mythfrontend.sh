@@ -3,7 +3,7 @@
 # script to run mythfrontend from version 31 on Raspberry Pi under Raspian Buster using EGLFS
 # can be added to .bashrc to allow autostart of mythfrontend on boot
 
-# Last Modified 10 March 2020
+# Last Modified 22 March 2020
 
 # Author Mike Bibbings
 
@@ -91,5 +91,7 @@ ENDOFSCRIPTINPUT
 QT_QPA_PLATFORM=eglfs QT_QPA_EGLFS_KMS_CONFIG=/home/pi/pi_mythfrontend.json mythfrontend $ARGUMENTS
 # fixup keyboard after exit from mythfrontend (bug in QT causes segment fault which kills keyboard input)
 kbd_mode -u
+# restore cursor
+setterm  --cursor on
 
 exit 0

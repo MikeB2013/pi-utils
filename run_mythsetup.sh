@@ -2,7 +2,7 @@
 
 # script to run mythtv-setup from version 31 on Raspberry Pi under Raspian Buster using EGLFS
 
-# Last Modified 27 February 2020
+# Last Modified 22 March 2020
 
 # Author Mike Bibbings
 
@@ -50,6 +50,8 @@ sudo systemctl stop mythtv-backend.service
 QT_QPA_PLATFORM=eglfs mythtv-setup $ARGUMENTS
 # fixup keyboard after exit from mythfrontend (bug in QT causes segment fault which kills keyboard input)
 kbd_mode -u
+# restore cursor
+setterm  --cursor on
 
 #start mythtv-backend
 echo "Restarting mythbackend - this may take a few seconds"
