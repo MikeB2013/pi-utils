@@ -3,7 +3,7 @@
 # script to run mythfrontend from version 31 on Raspberry Pi under Raspian Buster using EGLFS
 # can be added to .bashrc to allow autostart of mythfrontend on boot
 
-# Last Modified 22 March 2020
+# Last Modified 7 April 2020
 
 # Author Mike Bibbings
 
@@ -31,6 +31,18 @@ else
 	ARGUMENTS="$*"
 fi
 
+# do some basic checks
+# check for drm, if not found abort with message
+PI_DRM=$(grep -ic 'drm' /proc/modules)
+if [ $PI_DRM = 0 ] ; then
+	echo "Basic configuration check failed."
+	echo "Please run 'sudo raspi-config' to set up:"
+	echo "  G2 GL (Fake KMS) Open GL Desktop driver"
+	echo "Also check that :"
+	echo "  Wait for Network at boot  is enabled"
+	echo "  Console AutoLogin is enabled"
+	exit 2
+fi
 echo "Starting MythTV Frontend -- this may take a few seconds -- Please wait"
 
 PI_MODEL=$(grep -ic 'Pi 4' /proc/device-tree/model)
@@ -89,7 +101,7 @@ ENDOFSCRIPTINPUT
 
 #for QT debug add to command line QT_QPA_EGLFS_DEBUG=1 QT_LOGGING_RULES=qt.qpa.*=true
 QT_QPA_PLATFORM=eglfs QT_QPA_EGLFS_KMS_CONFIG=/home/pi/pi_mythfrontend.json mythfrontend $ARGUMENTS
-# fixup keyboard after exit from mythfrontend (bug in QT causes segment fault which kills keyboard input)
+# fixup keyboard after exit from mythfrontend, bug in QT causes segment fault which kills keyboard input
 kbd_mode -u
 # restore cursor
 setterm  --cursor on
