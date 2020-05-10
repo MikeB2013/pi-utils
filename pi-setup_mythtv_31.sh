@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Last Modified 2 March 2020
+# Last Modified 10 May 2020
 
 # Script to setup MythTV 31 for Raspberry Pi under Raspbian Buster
 # runs from console using eglfs for best performance.
@@ -143,6 +143,9 @@ fi
 if [ $PI_MODEL2 = 1 ] ; then
     sudo raspi-config nonint do_overclock High
 fi
+
+# set gpu_mem
+sudo raspi-config nonint do_memory_split $GPU_MEM
 
 # setup vc4-fkms-v3d
 # extracted from raspi-config code, as vc4-fkms-v3d cannot be setup using nonint mode of raspi-config
