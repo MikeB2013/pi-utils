@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Last Modified 10 May 2020
+# Last Modified 20 June 2020
 
+# fixed mythpluguns-light install
 # Script to setup MythTV 31 for Raspberry Pi under Raspbian Buster
 # runs from console using eglfs for best performance.
 # very little error checking
@@ -109,7 +110,7 @@ sudo apt upgrade -y
 sudo apt install git mythtv-light -y
 
 if [ $MYTHPLUGINS = 0 ] ; then
-    sudo apt install mythplugins -y
+    sudo apt install mythplugins-light -y
 fi
 
 # get all scripts from my github repository
