@@ -2,7 +2,7 @@
 
 # script to run mythtv-setup from version 31 on Raspberry Pi under Raspian Buster using EGLFS
 
-# Last Modified 22 March 2020
+# Last Modified 24 July 2020
 
 # Author Mike Bibbings
 
@@ -47,7 +47,7 @@ sudo systemctl stop mythtv-backend.service
 
 #for QT debug add to command line QT_QPA_EGLFS_DEBUG=1 QT_LOGGING_RULES=qt.qpa.*=true 
 #QT_QPA_EGLFS_DEBUG=1 QT_LOGGING_RULES=qt.qpa.*=true QT_QPA_PLATFORM=eglfs QT_QPA_EGLFS_KMS_CONFIG=/home/pi/pi_mythfrontend.json mythtv-setup --logpath /tmp  
-QT_QPA_PLATFORM=eglfs mythtv-setup $ARGUMENTS
+QT_QPA_EGLFS_ALWAYS_SET_MODE="1" QT_QPA_PLATFORM=eglfs mythtv-setup $ARGUMENTS
 # fixup keyboard after exit from mythfrontend (bug in QT causes segment fault which kills keyboard input)
 kbd_mode -u
 # restore cursor
