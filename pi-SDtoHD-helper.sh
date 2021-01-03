@@ -111,12 +111,13 @@ echo -e  "Configuring boot from $target_partition"
 # rootdelay=5 is likely not necessary here, but does no harm.
 cp /boot/cmdline.txt /boot/cmdline.txt.bak
 sed -i "s/\( root=PARTUUID=*\)[^ ]*/\1${target_partition_partuuid} rootdelay=5 /" /boot/cmdline.txt
+sed -i "s/\( root=\)\/[^ ]*/\1PARTUUID={target_partition_partuuid} rootdelay=5 /" /boot/cmdline.txt
 sync
 echo  "Commenting out old root partition in /etc/fstab, adding new one"
 # These changes are made on the new drive after copying so that they
 # don't have to be undone in order to switch back to booting from the
 # SD card.
-sed -i -r '/-02/s/^/#/' /mnt/etc/fstab
+sed -i -r '/\/[ \t]*ext4/s/^/#/' /mnt/etc/fstab
 sync
 echo "/dev/disk/by-uuid/${target_partition_uuid}    /   ext4    defaults,noatime  0       1" >> /mnt/etc/fstab
 echo  "Your new root drive is currently accessible under /mnt."
