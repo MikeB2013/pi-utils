@@ -99,8 +99,9 @@ bash -c "cat >/home/pi/pi_mythfrontend.json" <<ENDOFSCRIPTINPUT
 }
 ENDOFSCRIPTINPUT
 
+export QT_QPA_EGLFS_ALWAYS_SET_MODE="1"
 #for QT debug add to command line QT_QPA_EGLFS_DEBUG=1 QT_LOGGING_RULES=qt.qpa.*=true
-QT_QPA_EGLFS_ALWAYS_SET_MODE="1" QT_QPA_PLATFORM=eglfs QT_QPA_EGLFS_KMS_CONFIG=/home/pi/pi_mythfrontend.json mythfrontend $ARGUMENTS
+QT_QPA_PLATFORM=eglfs mythfrontend $ARGUMENTS
 # fixup keyboard after exit from mythfrontend, bug in QT causes segment fault which kills keyboard input
 kbd_mode -u
 # restore cursor
