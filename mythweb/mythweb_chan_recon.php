@@ -58,7 +58,7 @@ while ($row = $sth->fetch()) {
     
     list($chan, $sub) = explode('_', $channum);
     $channum = "$chan.$sub";
-    $row['XMLTV_selected'] = '0';
+    $row['XMLTV_selected'] = 'missing';
     $row['channum'] = $channum;
     
     $myth_channels[$channum] = $row;
