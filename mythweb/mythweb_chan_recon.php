@@ -45,6 +45,16 @@ $slconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $msconn = new PDO("mysql:host={$_SERVER['db_server']};dbname={$_SERVER['db_name']};charset=utf8", $_SERVER['db_login'], $_SERVER['db_password']);
 $msconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
+
+if ($action == 'setXMLTV') {
+    $channum = $_REQUEST['channum'];
+    $val = $_REQUEST['val'];
+    
+    $sql = "UPDATE channels SET selected = $val WHERE channum = '$channum'";
+    $slconn->exec($sql);
+}
+
 // Load mythtv channel table
 $sql = 'SELECT * FROM channel ORDER BY chanid';
 $sth = $msconn->query($sql);
@@ -105,7 +115,13 @@ foreach ($myth_channels as $channum => $chan) {
         $name = $matches[1];
     }
     
-    echo "<tr$rowcolor><td>$channum</td><td>$freq</td><td>$name</td><td style='text-align: center;'>{$chan['visible']}</td><td style='text-align: center;'>{$chan['XMLTV_selected']}</td></tr>\n";
+    $XMLTV_checked = '';
+    if ($chan['XMLTV_selected']) $XMLTV_checked = 'checked';
+    $href = "\"mythweb_chan_recon.php?action=setXMLTV&amp;channum=$channum&amp;val=\" + val";
+    
+    echo "<tr$rowcolor><td>$channum</td><td>$freq</td><td>$name</td><td style='text-align: center;'>{$chan['visible']}</td><td style='text-align: center;'>";
+    echo "<input type='checkbox' id='$channum' autocomplete='off' $XMLTV_checked onchange='var val=\"0\"; if (this.checked) val=\"1\"; location.href=$href;' />";
+    echo "</td></tr>\n";
 }
 ?>
 </tbody>
