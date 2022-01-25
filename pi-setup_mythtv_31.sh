@@ -18,12 +18,10 @@
 # Globals
 
 #mythtv-light version
-MYTHTV_LIGHT_VERSION="deb http://dl.bintray.com/bennettpeter/deb/ buster myth31"
-MYTHTV_LIGHT_KEY="https://bintray.com/user/downloadSubjectPublicKey?username=bintray"
 MYTITLE="MythTV Setup for Raspberry Pi"
 
 # my pi-utils repository
-PI_UTILS_REPO="https://github.com/MikeB2013/pi-utils.git"
+PI_UTILS_REPO="https://github.com/Bamyers99/pi-utils.git"
 
 # for whiptail items 0=Yes, 1=No -1=error (not currently checked)
 DEFAULT_INSTALL=0
@@ -94,23 +92,20 @@ echo -e "A reboot is required, please type sudo reboot\n"
 
 do_install_mythtv_from_repo()
 {
-#setup sources.list
-ALREADY_ADDED=$(grep -ic "$MYTHTV_LIGHT_VERSION" /etc/apt/sources.list)
-#don't add more than once - it generates  apt warnings (harmless)
-if [ $ALREADY_ADDED = 0 ] ; then
-	echo "$MYTHTV_LIGHT_VERSION" | sudo tee -a /etc/apt/sources.list
-	#setup bintray key
-	wget -O - $MYTHTV_LIGHT_KEY | sudo apt-key add -
-fi
 
 # install mythtv-light
 # first make sure we are upto date.
 sudo apt update
 sudo apt upgrade -y
-sudo apt install git mythtv-light -y
+sudo apt install git gdebi-core -y
+
+#wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1mG4dHUXCshehLZNr6CxC4kdhZoqxiTn4' -O 'mythtv-light_31.0-144-g563a05b7a8-0_armhf_buster.deb' 
+wget --no-check-certificate --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1mG4dHUXCshehLZNr6CxC4kdhZoqxiTn4' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1mG4dHUXCshehLZNr6CxC4kdhZoqxiTn4" -O "mythtv-light_31.0-144-g563a05b7a8-0_armhf_buster.deb" && rm -rf /tmp/cookies.txt
+sudo gdebi 'mythtv-light_31.0-144-g563a05b7a8-0_armhf_buster.deb'
 
 if [ $MYTHPLUGINS = 0 ] ; then
-    sudo apt install mythplugins-light -y
+    wget --no-check-certificate --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Ds7iDgxzBc6YW9bkjDqefkgqtQrZUC4O' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1Ds7iDgxzBc6YW9bkjDqefkgqtQrZUC4O" -O "mythplugins-light_31.0-144-g563a05b7a8-0_armhf_buster.deb" && rm -rf /tmp/cookies.txt
+    sudo gdebi 'mythplugins-light_31.0-144-g563a05b7a8-0_armhf_buster.deb'
 fi
 
 # get all scripts from my github repository
